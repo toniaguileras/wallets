@@ -10,6 +10,7 @@ import java.util.List;
 public class User {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     private String username;
@@ -64,6 +65,7 @@ public class User {
     public void setEmail(String email) {
         this.email = email;
     }
+
 
     public List<Wallet> getWallets() {
         return wallets;
