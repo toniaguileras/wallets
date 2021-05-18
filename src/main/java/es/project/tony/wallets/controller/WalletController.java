@@ -11,16 +11,17 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 public class WalletController {
 
-    @Autowired private WalletService walletService;
+    @Autowired
+    private WalletService walletService;
 
 
-    @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<?> getWalletsByUserId(@RequestParam Integer userId){
+    @RequestMapping(value = "/user", method = RequestMethod.GET)
+    public ResponseEntity<?> getWalletsByUserId(@RequestParam Integer userId) {
         return ResponseEntity.ok(walletService.getWalletsByUserId(userId));
     }
 
     @RequestMapping(value = "/transfer", method = RequestMethod.PUT)
-    public ResponseEntity<?> transferMoney(@RequestBody TransferDTO transferDTO)  {
+    public ResponseEntity<?> transferMoney(@RequestBody TransferDTO transferDTO) {
         return ResponseEntity.ok(walletService.transferMoney(transferDTO));
     }
 
