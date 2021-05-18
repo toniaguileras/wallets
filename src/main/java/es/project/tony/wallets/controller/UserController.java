@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController(value = "/api/user")
 @Controller
+@RequestMapping("/api/user")
 public class UserController {
 
     @Autowired

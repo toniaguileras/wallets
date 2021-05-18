@@ -7,8 +7,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-@RestController(value = "/api/wallet")
+import javax.websocket.server.PathParam;
+
 @Controller
+@RequestMapping(value = "/api/wallet")
 public class WalletController {
 
     @Autowired

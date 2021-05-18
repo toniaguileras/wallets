@@ -22,7 +22,7 @@ public class WalletDao {
     }
 
     public List<Wallet> getWalletsByUserId(Integer userId) {
-        String sql = "";
+        String sql = "SELECT * FROM wallet WHERE user_id = :userId";
         Query q = entityManager.createNativeQuery(sql, Wallet.class);
         q.setParameter("userId", userId);
         List<Wallet> resultList = q.getResultList();
