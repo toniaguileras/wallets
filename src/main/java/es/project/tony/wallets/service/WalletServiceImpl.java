@@ -17,8 +17,7 @@ import java.util.Optional;
 public class WalletServiceImpl implements WalletService {
     @Autowired
     private WalletDao walletDao;
-    @Autowired
-    private WalletRepository walletRepository;
+
 
     @Override
     public List<WalletDTO> getWalletsByUserId(Integer userId) {
@@ -27,13 +26,13 @@ public class WalletServiceImpl implements WalletService {
 
     @Override
     public List<WalletDTO> transferMoney(TransferDTO transferDTO){
-        Wallet originWallet = walletRepository.getOne(transferDTO.getOriginWallet());
-        Wallet destinationWallet = walletRepository.getOne(transferDTO.getDestinationWallet());
-        originWallet.setAmount(destinationWallet.getAmount().subtract(transferDTO.getAmount()));
+        Wallet originWallet = walletDao.getOne(transferDTO.getOriginWallet());
+        Wallet destinationWallet = walletDao.getOne(transferDTO.getDestinationWallet());
+        originWallet.setAmount(originWallet.getAmount().subtract(transferDTO.getAmount()));
         destinationWallet.setAmount(destinationWallet.getAmount().add(transferDTO.getAmount()));
 
-        walletRepository.saveAndFlush(destinationWallet);
-        walletRepository.saveAndFlush(originWallet);
+        walletDao.saveAndFlush(destinationWallet);
+        walletDao.saveAndFlush(originWallet);
         List<Wallet> walletList = new ArrayList<>();
         walletList.add(originWallet);
         walletList.add(destinationWallet);

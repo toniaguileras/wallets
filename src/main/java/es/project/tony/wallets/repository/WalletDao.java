@@ -16,6 +16,7 @@ public class WalletDao {
     @PersistenceContext
     private final EntityManager entityManager;
 
+    @Autowired private WalletRepository walletRepository;
     @Autowired
     public WalletDao(EntityManager entityManager) {
         this.entityManager = entityManager;
@@ -30,5 +31,11 @@ public class WalletDao {
             return resultList;
         }
         return new ArrayList<>();
+    }
+    public Wallet getOne(Integer id){
+        return walletRepository.getOne(id);
+    }
+    public void saveAndFlush(Wallet wallet){
+        walletRepository.saveAndFlush(wallet);
     }
 }
