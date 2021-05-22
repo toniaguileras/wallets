@@ -4,19 +4,22 @@ import es.project.tony.wallets.model.Wallet;
 import es.project.tony.wallets.model.dto.TransferDTO;
 import es.project.tony.wallets.model.dto.WalletDTO;
 import es.project.tony.wallets.repository.WalletDao;
-import es.project.tony.wallets.repository.WalletRepository;
+import es.project.tony.wallets.utils.WalletExceptionEnum;
 import es.project.tony.wallets.utils.WalletMapper;
-import org.springframework.beans.factory.annotation.Autowired;
+import es.project.tony.wallets.utils.exception.WalletException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class WalletServiceImpl implements WalletService {
-    @Autowired
-    private WalletDao walletDao;
+
+    private final WalletDao walletDao;
+
+    public WalletServiceImpl(WalletDao walletDao) {
+        this.walletDao = walletDao;
+    }
 
 
     @Override
@@ -25,9 +28,12 @@ public class WalletServiceImpl implements WalletService {
     }
 
     @Override
-    public List<WalletDTO> transferMoney(TransferDTO transferDTO){
+    public List<WalletDTO> transferMoney(TransferDTO transferDTO) throws Exception {
         Wallet originWallet = walletDao.getOne(transferDTO.getOriginWallet());
         Wallet destinationWallet = walletDao.getOne(transferDTO.getDestinationWallet());
+        if (originWallet == null || destinationWallet == null) {
+            throw new WalletException(WalletExceptionEnum.WALLETS_NOT_FOUND.getMessage());
+        }
         originWallet.setAmount(originWallet.getAmount().subtract(transferDTO.getAmount()));
         destinationWallet.setAmount(destinationWallet.getAmount().add(transferDTO.getAmount()));
 

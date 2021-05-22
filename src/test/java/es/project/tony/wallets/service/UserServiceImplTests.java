@@ -11,6 +11,7 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -22,31 +23,25 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
-@RunWith(SpringRunner.class)
+@RunWith(MockitoJUnitRunner.class)
 @SpringBootTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 public class UserServiceImplTests {
 
-    @InjectMocks
-    private UserServiceImpl userServiceMock;
+    private UserService userServiceMock;
+    private UserDao userDao;
 
-    @Mock private UserDao userDao;
-
-
-    @Before
-    public void setUp() throws Exception {
-        MockitoAnnotations.initMocks(this);
-        userServiceMock = new UserServiceImpl();
-    }
 
     @Test
-    public void getUsersOk(){
-        List<User> userList = getUserList();
+    public void getUsersOk() {
+        userDao = mock(UserDao.class);
+        userServiceMock = new UserServiceImpl(userDao);
+        when(userDao.findAll()).thenReturn(getUserList());
         List<UserDTO> resultList = userServiceMock.getUsers();
-        when(userDao.findAll()).thenReturn(userList);
         assertNotNull(resultList);
         assertEquals("toni_aguilera", resultList.get(0).getUsername());
     }
@@ -57,12 +52,14 @@ public class UserServiceImplTests {
         user.setUsername("toni_aguilera");
         user.setName("Toni");
         user.setSurname("Aguilera");
+        user.setWallets(new ArrayList<>());
 
         User user2 = new User();
         user2.setEmail("toniaguilera@gmail.com");
         user2.setUsername("toni_aguilera");
         user2.setName("Toni");
         user2.setSurname("Aguilera");
+        user2.setWallets(new ArrayList<>());
 
         List<User> userList = new ArrayList<>();
         userList.add(user);

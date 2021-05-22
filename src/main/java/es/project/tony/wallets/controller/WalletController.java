@@ -23,7 +23,7 @@ public class WalletController {
     }
 
     @RequestMapping(value = "/transfer", method = RequestMethod.PUT)
-    public ResponseEntity<?> transferMoney(@RequestBody TransferDTO transferDTO) {
+    public ResponseEntity<?> transferMoney(@RequestBody TransferDTO transferDTO) throws Exception {
         return ResponseEntity.ok(walletService.transferMoney(transferDTO));
     }
 

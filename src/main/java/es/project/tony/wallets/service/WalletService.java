@@ -9,5 +9,5 @@ public interface WalletService {
 
     List<WalletDTO> getWalletsByUserId(Integer userId);
 
-    List<WalletDTO> transferMoney(TransferDTO transferDTO);
+    List<WalletDTO> transferMoney(TransferDTO transferDTO) throws Exception;
 }
