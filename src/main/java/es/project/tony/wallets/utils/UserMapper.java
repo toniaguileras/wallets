@@ -22,6 +22,7 @@ public class UserMapper {
         userDTO.setUsername(user.getUsername());
         userDTO.setName(user.getName());
         userDTO.setSurname(user.getSurname());
+        userDTO.setEmail(user.getEmail());
         userDTO.setWallets(WalletMapper.mapToWalletDTOList(user.getWallets()));
         return userDTO;
     }
