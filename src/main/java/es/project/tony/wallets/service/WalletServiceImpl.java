@@ -44,4 +44,9 @@ public class WalletServiceImpl implements WalletService {
         walletList.add(destinationWallet);
         return WalletMapper.mapToWalletDTOList(walletList);
     }
+
+    @Override
+    public List<WalletDTO> getAllWallets() {
+        return WalletMapper.mapToWalletDTOList(walletDao.findAll());
+    }
 }

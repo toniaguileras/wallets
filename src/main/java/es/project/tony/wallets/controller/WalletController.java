@@ -17,6 +17,11 @@ public class WalletController {
     private WalletService walletService;
 
 
+
+    @RequestMapping(method = RequestMethod.GET)
+    public ResponseEntity<?> getWallets(){
+        return ResponseEntity.ok(walletService.getAllWallets());
+    }
     @RequestMapping(value = "/user", method = RequestMethod.GET)
     public ResponseEntity<?> getWalletsByUserId(@RequestParam Integer userId) {
         return ResponseEntity.ok(walletService.getWalletsByUserId(userId));
