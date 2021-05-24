@@ -9,9 +9,14 @@ import java.util.List;
 @Component
 public class UserDao {
 
-    @Autowired private UserRepository userRepository;
+    @Autowired
+    private UserRepository userRepository;
 
-    public List<User> findAll(){
+    public List<User> findAll() {
         return userRepository.findAll();
+    }
+
+    public User getOne(Integer userId) {
+        return userRepository.getOne(userId);
     }
 }

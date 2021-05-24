@@ -77,6 +77,20 @@ public class WalletsServiceImplTests {
         assertNotNull(walletDTO);
         assertEquals(new BigDecimal(12899),walletDTO.getAmount());
     }
+    @Test(expected = WalletException.class)
+    public void transferMoneyWithUserRole() throws Exception {
+        walletDao = mock(WalletDao.class);
+        walletService = new WalletServiceImpl(walletDao);
+        TransferDTO transferDTO = new TransferDTO();
+        transferDTO.setAmount(new BigDecimal(100));
+        transferDTO.setDestinationWallet(1);
+        transferDTO.setOriginWallet(2);
+        when(walletDao.getOne(1)).thenReturn(getWallets().get(0));
+        when(walletDao.getOne(2)).thenReturn(getWallets().get(1));
+        WalletDTO walletDTO = walletService.transferMoney(transferDTO);
+        assertNotNull(walletDTO);
+        assertEquals(new BigDecimal(12899),walletDTO.getAmount());
+    }
 
     @Test(expected = WalletException.class)
     public void transferMoneyTestOneWalletDoesntExist() throws Exception {
@@ -103,7 +117,7 @@ public class WalletsServiceImplTests {
         wallet2.setAmount(new BigDecimal(15000));
         wallet2.setId(2);
         wallet2.setName("Cartera de Paco");
-        wallet2.setUser(new User());
+        wallet2.setUser(getNormalUser());
 
         List<Wallet> wallets = new ArrayList<>();
         wallets.add(wallet);
@@ -114,6 +128,12 @@ public class WalletsServiceImplTests {
         User user = new User();
         user.setRole(UserRolesEnum.ADMIN);
         user.setName("Toni");
+        return user;
+    }
+    private User getNormalUser(){
+        User user = new User();
+        user.setRole(UserRolesEnum.USER);
+        user.setName("David");
         return user;
     }
 }

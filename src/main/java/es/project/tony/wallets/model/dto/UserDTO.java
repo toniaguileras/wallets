@@ -1,5 +1,7 @@
 package es.project.tony.wallets.model.dto;
 
+import es.project.tony.wallets.utils.UserRolesEnum;
+
 import java.util.List;
 
 public class UserDTO {
@@ -10,6 +12,7 @@ public class UserDTO {
     private String surname;
     private String email;
     private List<WalletDTO> wallets;
+    private UserRolesEnum role;
 
     public UserDTO() {
     }
@@ -70,5 +73,13 @@ public class UserDTO {
 
     public void setWallets(List<WalletDTO> wallets) {
         this.wallets = wallets;
+    }
+
+    public UserRolesEnum getRole() {
+        return role;
+    }
+
+    public void setRole(UserRolesEnum role) {
+        this.role = role;
     }
 }

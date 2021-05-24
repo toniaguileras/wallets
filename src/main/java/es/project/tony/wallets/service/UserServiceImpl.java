@@ -21,4 +21,9 @@ public class UserServiceImpl implements UserService {
     public List<UserDTO> getUsers() {
         return UserMapper.mapToUserDTOList(userDao.findAll());
     }
+
+    @Override
+    public UserDTO findUserById(Integer userId) {
+        return UserMapper.mapToUserDTO(userDao.getOne(userId));
+    }
 }
