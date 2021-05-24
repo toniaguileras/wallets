@@ -6,6 +6,7 @@ import es.project.tony.wallets.model.Wallet;
 import es.project.tony.wallets.model.dto.TransferDTO;
 import es.project.tony.wallets.model.dto.WalletDTO;
 import es.project.tony.wallets.repository.WalletDao;
+import es.project.tony.wallets.utils.UserRolesEnum;
 import es.project.tony.wallets.utils.exception.WalletException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -96,7 +97,7 @@ public class WalletsServiceImplTests {
         wallet.setAmount(new BigDecimal(12999));
         wallet.setId(1);
         wallet.setName("Cartera de Toni");
-        wallet.setUser(new User());
+        wallet.setUser(getAdminUser());
 
         Wallet wallet2 = new Wallet();
         wallet2.setAmount(new BigDecimal(15000));
@@ -108,5 +109,11 @@ public class WalletsServiceImplTests {
         wallets.add(wallet);
         wallets.add(wallet2);
         return wallets;
+    }
+    private User getAdminUser(){
+        User user = new User();
+        user.setRole(UserRolesEnum.ADMIN);
+        user.setName("Toni");
+        return user;
     }
 }
