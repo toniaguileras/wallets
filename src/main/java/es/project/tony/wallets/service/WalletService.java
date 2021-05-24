@@ -11,5 +11,5 @@ public interface WalletService {
 
      WalletDTO transferMoney(TransferDTO transferDTO) throws Exception;
 
-    List<WalletDTO> getAllWallets();
+    List<WalletDTO> getAllWalletsAvailable(Integer userId);
 }

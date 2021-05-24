@@ -45,8 +45,7 @@ public class WalletServiceImpl implements WalletService {
         return WalletMapper.mapToWalletDTO(originWallet);
     }
 
-    @Override
-    public List<WalletDTO> getAllWallets() {
-        return WalletMapper.mapToWalletDTOList(walletDao.findAll());
+    public List<WalletDTO> getAllWalletsAvailable(Integer userId) {
+        return WalletMapper.mapToWalletDTOList(walletDao.findAllAvailable(userId));
     }
 }

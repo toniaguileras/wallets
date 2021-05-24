@@ -43,7 +43,14 @@ public class WalletDao {
         walletRepository.saveAndFlush(wallet);
     }
 
-    public List<Wallet> findAll() {
-        return walletRepository.findAll();
+    public List<Wallet> findAllAvailable(Integer userId) {
+        String sql = "SELECT * FROM wallet WHERE user_id != :userId";
+        Query q = entityManager.createNativeQuery(sql,Wallet.class);
+        q.setParameter("userId", userId);
+        List<Wallet> resultList = q.getResultList();
+        if(resultList!=null && !resultList.isEmpty()){
+            return resultList;
+        }
+        return new ArrayList<>();
     }
 }

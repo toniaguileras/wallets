@@ -15,9 +15,9 @@ public class WalletController {
     @Autowired
     private WalletService walletService;
 
-    @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<?> getWallets() {
-        return ResponseEntity.ok(walletService.getAllWallets());
+    @RequestMapping(value = "/available/user", method = RequestMethod.GET)
+    public ResponseEntity<?> getWallets(@RequestParam Integer userId) {
+        return ResponseEntity.ok(walletService.getAllWalletsAvailable(userId));
     }
 
     @RequestMapping(value = "/user", method = RequestMethod.GET)
