@@ -15,7 +15,7 @@ public class WalletMapper {
         return resultList;
     }
 
-    private static WalletDTO mapToWalletDTO(Wallet wallet) {
+    public static WalletDTO mapToWalletDTO(Wallet wallet) {
         WalletDTO walletDTO = new WalletDTO();
         walletDTO.setId(wallet.getId());
         walletDTO.setName(wallet.getName());

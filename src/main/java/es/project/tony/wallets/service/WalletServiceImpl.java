@@ -4,12 +4,12 @@ import es.project.tony.wallets.model.Wallet;
 import es.project.tony.wallets.model.dto.TransferDTO;
 import es.project.tony.wallets.model.dto.WalletDTO;
 import es.project.tony.wallets.repository.WalletDao;
+import es.project.tony.wallets.utils.UserRolesEnum;
 import es.project.tony.wallets.utils.WalletExceptionEnum;
 import es.project.tony.wallets.utils.WalletMapper;
 import es.project.tony.wallets.utils.exception.WalletException;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -28,21 +28,21 @@ public class WalletServiceImpl implements WalletService {
     }
 
     @Override
-    public List<WalletDTO> transferMoney(TransferDTO transferDTO) throws Exception {
+    public WalletDTO transferMoney(TransferDTO transferDTO) throws Exception {
         Wallet originWallet = walletDao.getOne(transferDTO.getOriginWallet());
         Wallet destinationWallet = walletDao.getOne(transferDTO.getDestinationWallet());
         if (originWallet == null || destinationWallet == null) {
             throw new WalletException(WalletExceptionEnum.WALLETS_NOT_FOUND.getMessage());
+        }
+        else if (originWallet.getUser().getRole() != UserRolesEnum.ADMIN){
+            throw new WalletException(WalletExceptionEnum.WALLET_USER_NOT_ADMIN.getMessage());
         }
         originWallet.setAmount(originWallet.getAmount().subtract(transferDTO.getAmount()));
         destinationWallet.setAmount(destinationWallet.getAmount().add(transferDTO.getAmount()));
 
         walletDao.saveAndFlush(destinationWallet);
         walletDao.saveAndFlush(originWallet);
-        List<Wallet> walletList = new ArrayList<>();
-        walletList.add(originWallet);
-        walletList.add(destinationWallet);
-        return WalletMapper.mapToWalletDTOList(walletList);
+        return WalletMapper.mapToWalletDTO(originWallet);
     }
 
     @Override

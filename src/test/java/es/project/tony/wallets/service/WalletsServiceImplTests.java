@@ -79,10 +79,9 @@ public class WalletsServiceImplTests {
         when(walletDao.getOne(1)).thenReturn(getWallets().get(0));
         when(walletDao.getOne(2)).thenReturn(getWallets().get(1));
 
-        List<WalletDTO> walletsDTOList = walletService.transferMoney(transferDTO);
-        assertNotNull(walletsDTOList);
-        assertEquals(new BigDecimal(12899),walletsDTOList.get(0).getAmount());
-        assertEquals(new BigDecimal(15100),walletsDTOList.get(1).getAmount());
+        WalletDTO walletDTO = walletService.transferMoney(transferDTO);
+        assertNotNull(walletDTO);
+        assertEquals(new BigDecimal(12899),walletDTO.getAmount());
     }
 
     @Test(expected = WalletException.class)
@@ -95,7 +94,7 @@ public class WalletsServiceImplTests {
         transferDTO.setOriginWallet(1);
         when(walletDao.getOne(1)).thenReturn(null);
         when(walletDao.getOne(2)).thenReturn(getWallets().get(1));
-        List<WalletDTO> walletsDTOList = walletService.transferMoney(transferDTO);
+        WalletDTO walletDTO = walletService.transferMoney(transferDTO);
 
     }
 
