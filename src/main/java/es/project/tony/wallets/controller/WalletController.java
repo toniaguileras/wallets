@@ -12,8 +12,12 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(value = "/api/wallet")
 public class WalletController {
 
-    @Autowired
     private WalletService walletService;
+
+    @Autowired
+    public WalletController(WalletService walletService) {
+        this.walletService = walletService;
+    }
 
     @RequestMapping(value = "/available/user", method = RequestMethod.GET)
     public ResponseEntity<?> getWallets(@RequestParam Integer userId) {

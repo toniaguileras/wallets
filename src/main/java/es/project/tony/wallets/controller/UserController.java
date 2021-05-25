@@ -10,17 +10,20 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/user")
 public class UserController {
 
-    @Autowired
-    private UserService userService;
+  private UserService userService;
 
-    @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<?> getUsers() {
-        return ResponseEntity.ok(userService.getUsers());
-    }
+  @Autowired
+  public UserController(UserService userService) {
+    this.userService = userService;
+  }
 
-    @RequestMapping(value = "/find", method = RequestMethod.GET)
-    public ResponseEntity<?> findUserById(@RequestParam Integer userId) {
-        return ResponseEntity.ok(userService.findUserById(userId));
-    }
+  @RequestMapping(method = RequestMethod.GET)
+  public ResponseEntity<?> getUsers() {
+    return ResponseEntity.ok(userService.getUsers());
+  }
 
+  @RequestMapping(value = "/find", method = RequestMethod.GET)
+  public ResponseEntity<?> findUserById(@RequestParam Integer userId) {
+    return ResponseEntity.ok(userService.findUserById(userId));
+  }
 }
